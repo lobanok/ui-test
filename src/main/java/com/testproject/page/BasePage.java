@@ -3,7 +3,6 @@ package com.testproject.page;
 import com.testproject.Driver;
 import com.testproject.FieldDecorator;
 import com.testproject.control.WebControl;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,7 +39,7 @@ public abstract class BasePage {
     }
 
     protected boolean waitForControl(WebControl webControl) {
-        return getWait(240).until(driver -> webControl != null && webControl.isDisplayed());
+        return getWait(240).until(webDriver -> webControl != null && webControl.isDisplayed());
     }
 
     protected abstract boolean exist();

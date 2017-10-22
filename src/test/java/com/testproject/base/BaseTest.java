@@ -14,6 +14,7 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.io.IOException;
 
+@SuppressWarnings("squid:S2187")
 public class BaseTest {
 
     private static final String REPORT_FILE = "testreport.html";

@@ -7,18 +7,20 @@ import java.util.Properties;
 public class Config {
 
     private static final String PROPERTY_FILE = "/web_driver.properties";
-    private static Properties config;
+    private static Properties properties;
 
     public static final String URL = "url";
     public static final String THREAD_COUNT = "threadCount";
     public static final String BROWSER = "browser";
 
+    private Config() {}
+
     public static String getProperty(String key) {
-        if (config == null) {
-            config = loadProperties(PROPERTY_FILE);
+        if (properties == null) {
+            properties = loadProperties(PROPERTY_FILE);
         }
-        if (config.containsKey(key)) {
-            return config.getProperty(key);
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key);
         } else {
             return "";
         }
