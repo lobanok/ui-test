@@ -19,28 +19,26 @@ public class BaseTest {
 
     private static final String REPORT_FILE = "testreport.html";
 
-    protected ExtentReports extent;
+    protected static ExtentReports extent = new ExtentReports(REPORT_FILE, true);
     protected ExtentTest logger;
     private RemoteWebDriver driver;
 
-    @BeforeSuite
-    public void startExtentReports() {
-        extent = new ExtentReports(REPORT_FILE, true);
-    }
-
-    @BeforeMethod
-    public void setUp() {
+    @BeforeMethod(alwaysRun = true)
+    public void setUp(ITestResult result) {
+        logger = extent.startTest(result.getName());
         Driver.startDriver();
         driver = Driver.getDriver();
+        logger.log(LogStatus.INFO, String.format("Browser %s is launched", Config.getProperty(Config.BROWSER)));
         driver.get(Config.getProperty(Config.URL));
         try {
             driver.manage().window().maximize();
         } catch (UnsupportedOperationException e) {
             e.printStackTrace();
         }
+        logger.log(LogStatus.INFO, String.format("Navigated to %s", Config.getProperty(Config.URL)));
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
             logger.log(LogStatus.FAIL, "Test failed: " + result.getName());
@@ -51,10 +49,11 @@ public class BaseTest {
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test skipped: " + result.getName());
         }
+        extent.endTest(logger);
         Driver.stopDriver();
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void closeExtentReports() {
         extent.flush();
     }

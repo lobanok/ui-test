@@ -15,11 +15,8 @@ import static org.testng.Assert.assertTrue;
 
 public class UITest extends BaseTest {
 
-    @Test
+    @Test(groups = "selenium")
     public void seleniumTest() {
-        logger = extent.startTest("seleniumTest");
-        logger.log(LogStatus.INFO, String.format("Browser %s is launched", Config.getProperty(Config.BROWSER)));
-        logger.log(LogStatus.INFO, String.format("Navigated to %s", Config.getProperty(Config.URL)));
         IndividualsPage individualsPage = new IndividualsPage();
         individualsPage.clickLoans();
         logger.log(LogStatus.INFO, "Click Loans link");
